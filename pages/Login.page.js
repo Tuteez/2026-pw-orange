@@ -4,6 +4,8 @@ export class LoginPage {
         this.usernameInput = page.locator('input[name="username"]');
         this.passwordInput = page.locator('input[name="password"]');
         this.loginButton = page.locator('button[type="submit"]');
+        this.errorMessage = page.locator('.oxd-alert-content-text');
+        this.forgotPasswordLink = page.locator('p', { hasText: 'Forgot your password?' });
     }
 
     async open() {
