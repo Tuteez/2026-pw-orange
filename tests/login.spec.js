@@ -37,7 +37,7 @@ test.describe('Login functionality', () => {
     await expect(dashboardPage.dashboardActiveMenuItem).toBeVisible({ timeout: 15000 });
   });
 
-  // TODO: cia bus daugiau testu, kad isbandyti skirtingus techninius dalykus.
+  // cia bus daugiau testu, kad isbandyti skirtingus techninius dalykus.
   // Patys testai gali but realiai nelabai naudingi
 
   // atiradus bugui, isjungiam testa, kol bugas bus istaisytas.
