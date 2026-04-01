@@ -3,6 +3,14 @@ import { LoginPage } from '../pages/Login.page';
 import { Dashboard } from '../pages/Dashboard.page';
 
 // TODO: get credentials from env
+// 1. install dotenv package: npm install dotenv 
+// 2. create a .env file in the root of your project
+// 3. add your credentials to the .env file, e.g.:
+//    ADMIN_USERNAME=your_username
+// 4. load the .env file at the beginning of your playwright config file:
+// import * as dotenv from 'dotenv';
+//    require('dotenv').config();
+// 5. use the credentials in your test: const username = process.env.ADMIN_USERNAME;
 // TODO: try other assertions ways
 // TODO: test data
 
@@ -26,14 +34,23 @@ test.describe('Login functionality', () => {
     loginPage = new LoginPage(page);
     await loginPage.open();
   });
-  test('@smoke Successful login with valid credentials', async ({ page }) => {
+  test('login test - hardcoded credentials', async ({ page }) => {
     const dashboardPage = new Dashboard(page);
 
     const username = 'Admin';
     const password = 'admin123';
 
     await loginPage.login(username, password);
+    await expect(dashboardPage.dashboardActiveMenuItem).toBeVisible({ timeout: 15000 });
+  });
 
+    test('login test - env credentials', async ({ page }) => {
+    const dashboardPage = new Dashboard(page);
+
+    const username = process.env.ADMIN_USERNAME;
+    const password = process.env.ADMIN_PASSWORD;
+
+    await loginPage.login(username, password);
     await expect(dashboardPage.dashboardActiveMenuItem).toBeVisible({ timeout: 15000 });
   });
 
