@@ -1,4 +1,4 @@
-// TODO: add base page  with open page method.
+// TODO: add base page with open page method OR just open() to PO
 split selectors
 env
 CI
