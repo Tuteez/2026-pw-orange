@@ -34,11 +34,21 @@ test.describe('Clicker task', () => {
         await cells3.last().click();
 
         // 4 row - only outer (first and last)
-        const lastRow = page.locator('.row').last();
+        const targetGrid = page.locator('.mainGrid');
+        const lastRow = targetGrid.locator('.row').last();
         const lastCells = lastRow.locator('.icon');
-        const lastCount = await lastCells.count();
-        for (let i = 0; i < lastCount; i++) {
-            await lastCells.nth(i).click();
+
+        for (const cell of await lastCells.all()) {
+            await cell.click();
         }
+
+        // TODO:assert alert text
+        // page.once('dialog', async prompt => {
+        //     expect(prompt.message()).toBe('Expected alert text');
+        //     // await prompt.dismiss();
+        //     await prompt.accept("5");
+        // });
+
+
     });
 });
