@@ -1,8 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/Login.page';
 import { Dashboard } from '../pages/Dashboard.page';
+import { userCredentials as td, user2 } from '../testData/user';
+// impruoti viska is user.js:
+// import * as allUserData from '../testData/user';
 
-// TODO: get credentials from env
+// DONE: get credentials from env
 // 1. install dotenv package: npm install dotenv 
 // 2. create a .env file in the root of your project
 // 3. add your credentials to the .env file, e.g.:
@@ -11,10 +14,9 @@ import { Dashboard } from '../pages/Dashboard.page';
 // import * as dotenv from 'dotenv';
 //    require('dotenv').config();
 // 5. use the credentials in your test: const username = process.env.ADMIN_USERNAME;
+// .env file should be added to .gitignore, to avoid committing sensitive data to version control. 
+
 // TODO: try other assertions ways
-// TODO: test data
-
-
 
 // Tagai: @zodis (ir npx playwright test --grep @zodis) - leidzia paleisti tik tuos testus, kurie turi nurodyta taga.
 // arba kuri neturi tago: npx playwright test --grep-invert @zodis
@@ -44,13 +46,31 @@ test.describe('Login functionality', () => {
     await expect(dashboardPage.dashboardActiveMenuItem).toBeVisible({ timeout: 15000 });
   });
 
-    test('login test - env credentials', async ({ page }) => {
+  test('login test - env credentials', async ({ page }) => {
     const dashboardPage = new Dashboard(page);
 
     const username = process.env.ADMIN_USERNAME;
     const password = process.env.ADMIN_PASSWORD;
 
     await loginPage.login(username, password);
+    await expect(dashboardPage.dashboardActiveMenuItem).toBeVisible({ timeout: 15000 });
+  });
+
+  test('login test - object credentials', async ({ page }) => {
+    const dashboardPage = new Dashboard(page);
+
+    const user = {
+      username: "Admin",
+      password: "admin123"
+    };
+
+    await loginPage.login(user.username, user.password);
+    await expect(dashboardPage.dashboardActiveMenuItem).toBeVisible({ timeout: 15000 });
+  });
+
+  test('login test - object from other file', async ({ page }) => {
+    const dashboardPage = new Dashboard(page);
+    await loginPage.login(td.valid.username, td.valid.password);
     await expect(dashboardPage.dashboardActiveMenuItem).toBeVisible({ timeout: 15000 });
   });
 
@@ -62,6 +82,7 @@ test.describe('Login functionality', () => {
   const credentialTestData = [
     { username: 'Admin', password: 'wrongpassword' },
     { username: 'WrongUsername', password: 'admin123' },
+    { username: td.invalid.username, password: td.invalid.password },
   ];
   credentialTestData.forEach(({ username, password }) => {
     test(`Unsuccessful login with username: ${username} and password: ${password}`, async ({ page }) => {
