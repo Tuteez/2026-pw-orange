@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/Login.page';
 import { Dashboard } from '../pages/Dashboard.page';
 
-// TODO: get credentials from page
+// TODO: get credentials from env
 // TODO: try other assertions ways
 // TODO: test data
 
